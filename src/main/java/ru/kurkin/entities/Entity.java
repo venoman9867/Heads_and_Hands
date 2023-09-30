@@ -12,10 +12,14 @@ public abstract class Entity {
     protected boolean isAlive = true;
 
     public Entity(int attack, int defense, int health, IntStream damage) {
+        if((attack<=30&&attack>0)&&(defense<=30&&defense>0)&&(health>0)){
         this.attack = attack;
         this.defense = defense;
         this.health = health;
         this.damage = damage;
+        }else{
+            throw new IllegalArgumentException("Плохие параметры попробуйте снова создать объект");
+        }
     }
 
     public void attack(Entity entity) {
