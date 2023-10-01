@@ -8,15 +8,18 @@ public abstract class Entity {
     private final int attack; //1..30
     private final int defense; //1..30
     protected int health; //0..N
-    private final IntStream damage; //M-N, 1-6
+    private final int startNumber;
+    //поля сверху и снизу диапазон значений для произвольной атаки M-N, 1-6
+    private final int endNumber;
     protected boolean isAlive = true;
 
-    public Entity(int attack, int defense, int health, IntStream damage) {
+    public Entity(int attack, int defense, int health, int startNumber,int endNumber) {
         if((attack<=30&&attack>0)&&(defense<=30&&defense>0)&&(health>0)){
         this.attack = attack;
         this.defense = defense;
         this.health = health;
-        this.damage = damage;
+        this.startNumber=startNumber;
+        this.endNumber=endNumber;
         }else{
             throw new IllegalArgumentException("Плохие параметры попробуйте снова создать объект");
         }
@@ -55,9 +58,10 @@ public abstract class Entity {
     }
 
     private int getRandomDamage() {
-        Random random = new Random();
-        List<Integer> listOfDamages = damage.boxed().toList();
-        return listOfDamages.get(random.nextInt(0, listOfDamages.size()));
+        Random random=new Random();
+        IntStream attackRange=IntStream.range(startNumber,endNumber);
+        List<Integer> list=attackRange.boxed().toList();
+        return list.get(random.nextInt(0,list.size()));
     }
 
     public void death() {
